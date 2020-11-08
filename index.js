@@ -6,5 +6,5 @@ app.get('/', (req, res) => {
 });
 
 // PORT is in all caps to tell others constant that should not be changed lightly
-const PORT = process.env.PORT || 42305;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT);
