@@ -1,11 +1,11 @@
-// SurveyForm shows a form for a user to add input
-import _ from 'lodash';
-import React, { Component } from 'react';
-import { reduxForm, Field } from 'redux-form';
-import { Link } from 'react-router-dom';
-import SurveyField from './SurveyField';
-import validateEmails from '../../utils/validateEmails';
-import formFields from './formFields';
+// Shows a form for a user to add input
+import _ from "lodash";
+import React, { Component } from "react";
+import { reduxForm, Field } from "redux-form";
+import { Link } from "react-router-dom";
+import SurveyField from "./SurveyField";
+import validateEmails from "../../utils/validateEmails";
+import formFields from "./formFields";
 
 class SurveyForm extends Component {
   renderFields() {
@@ -30,9 +30,9 @@ class SurveyForm extends Component {
           <Link to="/surveys" className="red btn-flat white-text">
             Cancel
           </Link>
-          <button type="submit" className="teal btn-flat right white-text">
+          <button type="submit" className="btn teal btn-flat right white-text">
             Next
-            <i className="material-icons right">done</i>
+            <i className="material-icons  right">done</i>
           </button>
         </form>
       </div>
@@ -43,11 +43,11 @@ class SurveyForm extends Component {
 function validate(values) {
   const errors = {};
 
-  errors.recipients = validateEmails(values.recipients || '');
+  errors.recipients = validateEmails(values.recipients || "");
 
   _.each(formFields, ({ name }) => {
     if (!values[name]) {
-      errors[name] = 'You must provide a value';
+      errors[name] = "You must provide a value";
     }
   });
 
@@ -56,6 +56,6 @@ function validate(values) {
 
 export default reduxForm({
   validate,
-  form: 'surveyForm',
-  destroyOnUnmount: false
+  form: "surveyForm",
+  destroyOnUnmount: false,
 })(SurveyForm);
