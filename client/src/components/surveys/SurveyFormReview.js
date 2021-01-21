@@ -1,43 +1,45 @@
-import _ from "lodash";
-import React from "react";
-import { connect } from "react-redux";
-import formFields from "./formFields";
-import { withRouter } from "react-router-dom";
-import * as actions from "../../actions";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { fetchSurveys } from '../../actions';
 
-const SurveyFormReview = ({ onCancel, formValues, submitSurvey, history }) => {
-  const reviewFields = _.map(formFields, ({ name, label }) => {
+class SurveyList extends Component {
+  componentDidMount() {
+    this.props.fetchSurveys();
+  }
+
+  renderSurveys() {
+    return this.props.surveys.reverse().map(survey => {
+      return (
+        <div className="card darken-1" key={survey._id}>
+          <div className="card-content">
+            <span className="card-title">{survey.title}</span>
+            <p>
+              {survey.body}
+            </p>
+            <p className="right">
+              Sent On: {new Date(survey.dateSent).toLocaleDateString()}
+            </p>
+          </div>
+          <div className="card-action">
+            <a>Yes: {survey.yes}</a>
+            <a>No: {survey.no}</a>
+          </div>
+        </div>
+      );
+    });
+  }
+
+  render() {
     return (
-      <div key={name}>
-        <label>{label}</label>
-        <div>{formValues[name]}</div>
+      <div>
+        {this.renderSurveys()}
       </div>
     );
-  });
-
-  return (
-    <div>
-      <h5>Please confirm your entries</h5>
-      {reviewFields}
-      <button
-        className="yellow darken-3 white-text btn-flat"
-        onClick={onCancel}
-      >
-        Back
-      </button>
-      <button
-        className="green white-text btn-flat right"
-        onClick={() => submitSurvey(formValues, history)}
-      >
-        Send Survey
-        <i className="material-icons right">email</i>
-      </button>
-    </div>
-  );
-};
-
-function mapStateToProps(state) {
-  return { formValues: state.form.surveyForm.values };
+  }
 }
 
-export default connect(mapStateToProps, actions)(withRouter(SurveyFormReview));
+function mapStateToProps({ surveys }) {
+  return { surveys };
+}
+
+export default connect(mapStateToProps, { fetchSurveys })(SurveyList);
